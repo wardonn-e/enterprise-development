@@ -20,7 +20,7 @@ public class Model
     /// <summary>
     /// Drivetrain type
     /// </summary>
-    public required DriveType DriveType { get; set; }
+    public required TypeDrive TypeDrive { get; set; }
 
     /// <summary>
     /// Number of seats
