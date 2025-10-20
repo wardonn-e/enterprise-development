@@ -9,10 +9,29 @@ namespace CarRental.Domain.Data;
 /// </summary>
 public class DataSeeder
 {
+    /// <summary>
+    /// Car models used in the system
+    /// </summary>
     public List<Model> Models { get; private set; }
+
+    /// <summary>
+    /// Model generations with specs
+    /// </summary>
     public List<ModelGeneration> ModelGenerations { get; private set; }
+
+    /// <summary>
+    /// Fleet of rental cars
+    /// </summary>
     public List<Car> Cars { get; private set; }
+
+    /// <summary>
+    /// Registered rental clients
+    /// </summary>
     public List<Client> Clients { get; private set; }
+
+    /// <summary>
+    /// Rental agreements data
+    /// </summary>
     public List<Rental> Rentals { get; private set; }
 
     /// <summary>
@@ -50,16 +69,16 @@ public class DataSeeder
     /// </summary>
     private static List<ModelGeneration> InitModelGenerations(List<Model> models) =>
         [
-        new ModelGeneration { Model = models[0], YearManufacture = 2020, EngineCapacity = 2.5, GearBoxType = GearBoxType.Automatic, RentalPricePerHour = 10.0 },
-        new ModelGeneration { Model = models[1], YearManufacture = 2022, EngineCapacity = 2.0, GearBoxType = GearBoxType.Automatic, RentalPricePerHour = 13.0 },
-        new ModelGeneration { Model = models[2], YearManufacture = 2021, EngineCapacity = 2.0, GearBoxType = GearBoxType.DCT, RentalPricePerHour = 15.0 },
-        new ModelGeneration { Model = models[3], YearManufacture = 2019, EngineCapacity = 1.4, GearBoxType = GearBoxType.Manual, RentalPricePerHour = 7.0 },
-        new ModelGeneration { Model = models[4], YearManufacture = 2023, EngineCapacity = 2.0, GearBoxType = GearBoxType.Automatic, RentalPricePerHour = 16.5 },
-        new ModelGeneration { Model = models[5], YearManufacture = 2022, EngineCapacity = 2.0, GearBoxType = GearBoxType.CVT, RentalPricePerHour = 12.0 },
-        new ModelGeneration { Model = models[6], YearManufacture = 2020, EngineCapacity = 1.6, GearBoxType = GearBoxType.Automatic, RentalPricePerHour = 6.5 },
-        new ModelGeneration { Model = models[7], YearManufacture = 2021, EngineCapacity = 1.5, GearBoxType = GearBoxType.Manual, RentalPricePerHour = 8.0 },
-        new ModelGeneration { Model = models[8], YearManufacture = 2022, EngineCapacity = 2.5, GearBoxType = GearBoxType.Automatic, RentalPricePerHour = 14.0 },
-        new ModelGeneration { Model = models[9], YearManufacture = 2021, EngineCapacity = 1.6, GearBoxType = GearBoxType.Manual, RentalPricePerHour = 5.5 }
+        new ModelGeneration { Model = models[0], YearManufacture = 2020, EngineCapacity = 2.5, GearBoxType = GearBoxType.Automatic, RentalPricePerHour = 10.0M },
+        new ModelGeneration { Model = models[1], YearManufacture = 2022, EngineCapacity = 2.0, GearBoxType = GearBoxType.Automatic, RentalPricePerHour = 13.0M },
+        new ModelGeneration { Model = models[2], YearManufacture = 2021, EngineCapacity = 2.0, GearBoxType = GearBoxType.DCT, RentalPricePerHour = 15.0M },
+        new ModelGeneration { Model = models[3], YearManufacture = 2019, EngineCapacity = 1.4, GearBoxType = GearBoxType.Manual, RentalPricePerHour = 7.0M },
+        new ModelGeneration { Model = models[4], YearManufacture = 2023, EngineCapacity = 2.0, GearBoxType = GearBoxType.Automatic, RentalPricePerHour = 16.5M },
+        new ModelGeneration { Model = models[5], YearManufacture = 2022, EngineCapacity = 2.0, GearBoxType = GearBoxType.CVT, RentalPricePerHour = 12.0M },
+        new ModelGeneration { Model = models[6], YearManufacture = 2020, EngineCapacity = 1.6, GearBoxType = GearBoxType.Automatic, RentalPricePerHour = 6.5M },
+        new ModelGeneration { Model = models[7], YearManufacture = 2021, EngineCapacity = 1.5, GearBoxType = GearBoxType.Manual, RentalPricePerHour = 8.0M },
+        new ModelGeneration { Model = models[8], YearManufacture = 2022, EngineCapacity = 2.5, GearBoxType = GearBoxType.Automatic, RentalPricePerHour = 14.0M },
+        new ModelGeneration { Model = models[9], YearManufacture = 2021, EngineCapacity = 1.6, GearBoxType = GearBoxType.Manual, RentalPricePerHour = 5.5M }
     ];
 
     /// <summary>
@@ -99,21 +118,17 @@ public class DataSeeder
     /// <summary>
     /// Initializes 10 rentals linking Clients and Cars
     /// </summary>
-    private static List<Rental> InitRentals(List<Client> clients, List<Car> cars)
-    {
-        var now = DateTime.Now;
-        return
-        [
-            new Rental { Client = clients[0], Car = cars[0], RentalStartTime = now.AddHours(-10), RentalDurationHours = 4,  TotalRentalAmount = 40 },
-            new Rental { Client = clients[1], Car = cars[1], RentalStartTime = now.AddDays(-1),  RentalDurationHours = 3,  TotalRentalAmount = 39 },
-            new Rental { Client = clients[2], Car = cars[2], RentalStartTime = now.AddDays(-2),  RentalDurationHours = 6,  TotalRentalAmount = 90 },
-            new Rental { Client = clients[3], Car = cars[3], RentalStartTime = now.AddDays(-3),  RentalDurationHours = 2,  TotalRentalAmount = 14 },
-            new Rental { Client = clients[4], Car = cars[4], RentalStartTime = now.AddDays(-4),  RentalDurationHours = 8,  TotalRentalAmount = 132 },
-            new Rental { Client = clients[5], Car = cars[5], RentalStartTime = now.AddDays(-5),  RentalDurationHours = 5,  TotalRentalAmount = 60 },
-            new Rental { Client = clients[6], Car = cars[6], RentalStartTime = now.AddDays(-6),  RentalDurationHours = 3,  TotalRentalAmount = 19.5 },
-            new Rental { Client = clients[7], Car = cars[7], RentalStartTime = now.AddDays(-7),  RentalDurationHours = 2,  TotalRentalAmount = 16 },
-            new Rental { Client = clients[8], Car = cars[8], RentalStartTime = now.AddDays(-8),  RentalDurationHours = 4,  TotalRentalAmount = 56 },
-            new Rental { Client = clients[9], Car = cars[9], RentalStartTime = now.AddDays(-9),  RentalDurationHours = 7,  TotalRentalAmount = 38.5 }
-        ];
-    }
+    private static List<Rental> InitRentals(List<Client> clients, List<Car> cars) =>
+    [
+        new Rental { Client = clients[0], Car = cars[0], RentalStartTime = DateTime.Now.AddHours(-10), RentalDurationHours = 4 },
+        new Rental { Client = clients[1], Car = cars[1], RentalStartTime = DateTime.Now.AddDays(-1),  RentalDurationHours = 3 },
+        new Rental { Client = clients[2], Car = cars[2], RentalStartTime = DateTime.Now.AddDays(-2),  RentalDurationHours = 6 },
+        new Rental { Client = clients[3], Car = cars[3], RentalStartTime = DateTime.Now.AddDays(-3),  RentalDurationHours = 2 },
+        new Rental { Client = clients[4], Car = cars[4], RentalStartTime = DateTime.Now.AddDays(-4),  RentalDurationHours = 8 },
+        new Rental { Client = clients[5], Car = cars[5], RentalStartTime = DateTime.Now.AddDays(-5),  RentalDurationHours = 5 },
+        new Rental { Client = clients[6], Car = cars[6], RentalStartTime = DateTime.Now.AddDays(-6),  RentalDurationHours = 3 },
+        new Rental { Client = clients[7], Car = cars[7], RentalStartTime = DateTime.Now.AddDays(-7),  RentalDurationHours = 2 },
+        new Rental { Client = clients[8], Car = cars[8], RentalStartTime = DateTime.Now.AddDays(-8),  RentalDurationHours = 4 },
+        new Rental { Client = clients[9], Car = cars[9], RentalStartTime = DateTime.Now.AddDays(-9),  RentalDurationHours = 7 }
+    ];
 } 

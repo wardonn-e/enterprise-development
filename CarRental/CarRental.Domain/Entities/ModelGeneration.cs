@@ -31,7 +31,7 @@ public class ModelGeneration
     /// <summary>
     /// Hourly rental price applicable to cars of this generation
     /// </summary>
-    public required double RentalPricePerHour { get; set; }
+    public required decimal RentalPricePerHour { get; set; }
 
     /// <summary>
     /// Transmission type for this generation

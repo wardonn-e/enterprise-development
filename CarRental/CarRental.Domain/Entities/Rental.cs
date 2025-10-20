@@ -28,7 +28,8 @@ public class Rental
     /// <summary>
     /// Total amount charged for this rental
     /// </summary>
-    public required double TotalRentalAmount { get; set; }
+    public decimal TotalRentalAmount =>
+        (decimal)RentalDurationHours * Car.ModelGeneration.RentalPricePerHour;
 
     /// <summary>
     /// Rental duration in hours

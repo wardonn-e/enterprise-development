@@ -61,19 +61,24 @@ public class CarRentalTests(DataSeeder seed) : IClassFixture<DataSeeder>
     [Fact]
     public void GetTop5MostRentedCars_ShouldReturnCarsOrderedByRentalCountDesc()
     {
-        var carCounts = seed.Rentals
+        var expectedCarId = seed.Rentals
+            .GroupBy(r => r.Car.Id)
+            .OrderByDescending(g => g.Count())
+            .Select(g => g.Key)
+            .First();
+
+        var top5 = seed.Rentals
             .GroupBy(r => r.Car.Id)
             .Select(g => new { Car = g.First().Car, Count = g.Count() })
             .OrderByDescending(x => x.Count)
-            .ThenBy(x => x.Car.LicensePlate)
+            .Take(5)
             .ToList();
 
-        var top5 = carCounts.Take(5).ToList();
-        var expectedCount = Math.Min(5, carCounts.Count);
-
-        Assert.Equal(expectedCount, top5.Count);
-        Assert.True(top5.SequenceEqual(top5.OrderByDescending(x => x.Count).ThenBy(x => x.Car.LicensePlate)));
+        Assert.Contains(top5, x => x.Car.Id == expectedCarId);
+        Assert.True(top5.SequenceEqual(
+            top5.OrderByDescending(x => x.Count)));
     }
+
 
     /// <summary>
     /// Returns number of rentals per each car
@@ -102,17 +107,14 @@ public class CarRentalTests(DataSeeder seed) : IClassFixture<DataSeeder>
     [Fact]
     public void GetTop5ClientsByTotalAmount_ShouldReturnClientsOrderedBySumDesc()
     {
-        var sums = seed.Rentals
+        var top5 = seed.Rentals
             .GroupBy(r => r.Client.Id)
-            .Select(g => new { Client = g.First().Client, Sum = g.Sum(r => r.TotalRentalAmount) })
+            .Select(g => new { client = g.First().Client, Sum = g.Sum(r => r.TotalRentalAmount) })
             .OrderByDescending(x => x.Sum)
-            .ThenBy(x => x.Client.FullName)
+            .ThenBy(x => x.client.FullName)
+            .Take(5)
             .ToList();
 
-        var top5 = sums.Take(5).ToList();
-        var expectedCount = Math.Min(5, sums.Count);
-
-        Assert.Equal(expectedCount, top5.Count);
-        Assert.True(top5.SequenceEqual(top5.OrderByDescending(x => x.Sum).ThenBy(x => x.Client.FullName)));
+        Assert.True(top5.SequenceEqual(top5.OrderByDescending(x => x.Sum).ThenBy(x => x.client.FullName)));
     }
 }

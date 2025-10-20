@@ -23,5 +23,5 @@ public class Client
     /// <summary>
     /// Date of birth
     /// </summary>
-    public required DateOnly BirthDate { get; set; }
+    public DateOnly? BirthDate { get; set; }
 }

@@ -23,5 +23,5 @@ public class Car
     /// <summary>
     /// Exterior color
     /// </summary>
-    public required string Color { get; set; }
+    public string? Color { get; set; }
 }
