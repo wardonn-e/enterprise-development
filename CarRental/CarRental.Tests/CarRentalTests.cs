@@ -18,13 +18,25 @@ public class CarRentalTests(DataSeeder seed) : IClassFixture<DataSeeder>
     [Fact]
     public void GetClientsByModelName_ShouldReturnDistinctClientsOrderedByFullName()
     {
-        var modelName = seed.Rentals.Select(r => r.Car.ModelGeneration.Model.NameModel).First();
+        var firstModelId = seed.ModelGenerations.First().ModelId;
+        var modelName = seed.Models.First(m => m.Id == firstModelId).NameModel;
 
         var clients = seed.Rentals
-            .Where(r => r.Car.ModelGeneration.Model.NameModel == modelName)
-            .Select(r => r.Client)
-            .GroupBy(c => c.Id)
-            .Select(g => g.First())
+            .Join(seed.Cars,
+                rental => rental.CarId,
+                car => car.Id,
+                (rental, car) => new { rental, car })
+            .Join(seed.ModelGenerations,
+                rc => rc.car.ModelGenerationId,
+                mg => mg.Id,
+                (rc, mg) => new { rc.rental, mg })
+            .Join(seed.Clients,
+                rmg => rmg.rental.ClientId,
+                client => client.Id,
+                (rmg, client) => new { rmg.mg, client })
+            .Where(x => x.mg.ModelId == firstModelId)
+            .Select(x => x.client)
+            .Distinct()
             .OrderBy(c => c.FullName)
             .ToList();
 
@@ -45,9 +57,11 @@ public class CarRentalTests(DataSeeder seed) : IClassFixture<DataSeeder>
         var carsInRent = seed.Rentals
             .Where(r => r.RentalStartTime <= now &&
                         r.RentalStartTime.AddHours(r.RentalDurationHours) > now)
-            .Select(r => r.Car)
-            .GroupBy(c => c.Id)
-            .Select(g => g.First())
+            .Join(seed.Cars,
+                rental => rental.CarId,
+                car => car.Id,
+                (rental, car) => car)
+            .Distinct()
             .OrderBy(c => c.LicensePlate)
             .ToList();
 
@@ -62,14 +76,22 @@ public class CarRentalTests(DataSeeder seed) : IClassFixture<DataSeeder>
     public void GetTop5MostRentedCars_ShouldReturnCarsOrderedByRentalCountDesc()
     {
         var expectedCarId = seed.Rentals
-            .GroupBy(r => r.Car.Id)
+            .GroupBy(r => r.CarId)
             .OrderByDescending(g => g.Count())
             .Select(g => g.Key)
             .First();
 
         var top5 = seed.Rentals
-            .GroupBy(r => r.Car.Id)
-            .Select(g => new { Car = g.First().Car, Count = g.Count() })
+            .GroupBy(r => r.CarId)
+            .Select(g => new
+            {
+                CarId = g.Key,
+                Count = g.Count()
+            })
+            .Join(seed.Cars,
+                anon => anon.CarId,
+                car => car.Id,
+                (anon, car) => new { Car = car, anon.Count })
             .OrderByDescending(x => x.Count)
             .Take(5)
             .ToList();
@@ -91,7 +113,7 @@ public class CarRentalTests(DataSeeder seed) : IClassFixture<DataSeeder>
             .Select(c => new
             {
                 Car = c,
-                Count = seed.Rentals.Count(r => r.Car.Id == c.Id)
+                Count = seed.Rentals.Count(r => r.CarId == c.Id)
             })
             .OrderBy(x => x.Car.LicensePlate)
             .ToList();
@@ -108,13 +130,29 @@ public class CarRentalTests(DataSeeder seed) : IClassFixture<DataSeeder>
     public void GetTop5ClientsByTotalAmount_ShouldReturnClientsOrderedBySumDesc()
     {
         var top5 = seed.Rentals
-            .GroupBy(r => r.Client.Id)
-            .Select(g => new { client = g.First().Client, Sum = g.Sum(r => r.TotalRentalAmount) })
+            .Join(seed.Cars,
+                r => r.CarId,
+                c => c.Id,
+                (r, c) => new { r, c })
+            .Join(seed.ModelGenerations,
+                rc => rc.c.ModelGenerationId,
+                mg => mg.Id,
+                (rc, mg) => new { rc.r, mg })
+            .GroupBy(x => x.r.ClientId)
+            .Select(g =>
+            {
+                var clientId = g.Key;
+                var client = seed.Clients.First(cl => cl.Id == clientId);
+                var sum = g.Sum(x =>
+                    (decimal)x.r.RentalDurationHours * x.mg.RentalPricePerHour);
+
+                return new { Client = client, Sum = sum };
+            })
             .OrderByDescending(x => x.Sum)
-            .ThenBy(x => x.client.FullName)
+            .ThenBy(x => x.Client.FullName)
             .Take(5)
             .ToList();
 
-        Assert.True(top5.SequenceEqual(top5.OrderByDescending(x => x.Sum).ThenBy(x => x.client.FullName)));
+        Assert.True(top5.SequenceEqual(top5.OrderByDescending(x => x.Sum).ThenBy(x => x.Client.FullName)));
     }
 }

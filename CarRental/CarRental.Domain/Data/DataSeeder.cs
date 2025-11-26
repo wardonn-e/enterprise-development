@@ -69,16 +69,16 @@ public class DataSeeder
     /// </summary>
     private static List<ModelGeneration> InitModelGenerations(List<Model> models) =>
         [
-        new ModelGeneration { Model = models[0], YearManufacture = 2020, EngineCapacity = 2.5, GearBoxType = GearBoxType.Automatic, RentalPricePerHour = 10.0M },
-        new ModelGeneration { Model = models[1], YearManufacture = 2022, EngineCapacity = 2.0, GearBoxType = GearBoxType.Automatic, RentalPricePerHour = 13.0M },
-        new ModelGeneration { Model = models[2], YearManufacture = 2021, EngineCapacity = 2.0, GearBoxType = GearBoxType.DCT, RentalPricePerHour = 15.0M },
-        new ModelGeneration { Model = models[3], YearManufacture = 2019, EngineCapacity = 1.4, GearBoxType = GearBoxType.Manual, RentalPricePerHour = 7.0M },
-        new ModelGeneration { Model = models[4], YearManufacture = 2023, EngineCapacity = 2.0, GearBoxType = GearBoxType.Automatic, RentalPricePerHour = 16.5M },
-        new ModelGeneration { Model = models[5], YearManufacture = 2022, EngineCapacity = 2.0, GearBoxType = GearBoxType.CVT, RentalPricePerHour = 12.0M },
-        new ModelGeneration { Model = models[6], YearManufacture = 2020, EngineCapacity = 1.6, GearBoxType = GearBoxType.Automatic, RentalPricePerHour = 6.5M },
-        new ModelGeneration { Model = models[7], YearManufacture = 2021, EngineCapacity = 1.5, GearBoxType = GearBoxType.Manual, RentalPricePerHour = 8.0M },
-        new ModelGeneration { Model = models[8], YearManufacture = 2022, EngineCapacity = 2.5, GearBoxType = GearBoxType.Automatic, RentalPricePerHour = 14.0M },
-        new ModelGeneration { Model = models[9], YearManufacture = 2021, EngineCapacity = 1.6, GearBoxType = GearBoxType.Manual, RentalPricePerHour = 5.5M }
+        new ModelGeneration { ModelId = models[0].Id, YearManufacture = 2020, EngineCapacity = 2.5, GearBoxType = GearBoxType.Automatic, RentalPricePerHour = 10.0M },
+        new ModelGeneration { ModelId = models[1].Id, YearManufacture = 2022, EngineCapacity = 2.0, GearBoxType = GearBoxType.Automatic, RentalPricePerHour = 13.0M },
+        new ModelGeneration { ModelId = models[2].Id, YearManufacture = 2021, EngineCapacity = 2.0, GearBoxType = GearBoxType.DCT, RentalPricePerHour = 15.0M },
+        new ModelGeneration { ModelId = models[3].Id, YearManufacture = 2019, EngineCapacity = 1.4, GearBoxType = GearBoxType.Manual, RentalPricePerHour = 7.0M },
+        new ModelGeneration { ModelId = models[4].Id, YearManufacture = 2023, EngineCapacity = 2.0, GearBoxType = GearBoxType.Automatic, RentalPricePerHour = 16.5M },
+        new ModelGeneration { ModelId = models[5].Id, YearManufacture = 2022, EngineCapacity = 2.0, GearBoxType = GearBoxType.CVT, RentalPricePerHour = 12.0M },
+        new ModelGeneration { ModelId = models[6].Id, YearManufacture = 2020, EngineCapacity = 1.6, GearBoxType = GearBoxType.Automatic, RentalPricePerHour = 6.5M },
+        new ModelGeneration { ModelId = models[7].Id, YearManufacture = 2021, EngineCapacity = 1.5, GearBoxType = GearBoxType.Manual, RentalPricePerHour = 8.0M },
+        new ModelGeneration { ModelId = models[8].Id, YearManufacture = 2022, EngineCapacity = 2.5, GearBoxType = GearBoxType.Automatic, RentalPricePerHour = 14.0M },
+        new ModelGeneration { ModelId = models[9].Id, YearManufacture = 2021, EngineCapacity = 1.6, GearBoxType = GearBoxType.Manual, RentalPricePerHour = 5.5M }
     ];
 
     /// <summary>
@@ -86,16 +86,16 @@ public class DataSeeder
     /// </summary>
     private static List<Car> InitCars(List<ModelGeneration> gens) =>
     [
-        new Car { ModelGeneration = gens[0], LicensePlate = "A123BC163", Color = "White" },
-        new Car { ModelGeneration = gens[1], LicensePlate = "B456AK163", Color = "Black" },
-        new Car { ModelGeneration = gens[2], LicensePlate = "E789MH163", Color = "Gray" },
-        new Car { ModelGeneration = gens[3], LicensePlate = "K234OP163", Color = "Red" },
-        new Car { ModelGeneration = gens[4], LicensePlate = "M567TX163", Color = "Silver" },
-        new Car { ModelGeneration = gens[5], LicensePlate = "P890CH163", Color = "Blue" },
-        new Car { ModelGeneration = gens[6], LicensePlate = "C345EA163", Color = "White" },
-        new Car { ModelGeneration = gens[7], LicensePlate = "T678HX163", Color = "Black" },
-        new Car { ModelGeneration = gens[8], LicensePlate = "O901KP163", Color = "Gray" },
-        new Car { ModelGeneration = gens[9], LicensePlate = "H112ME163", Color = "Red" }
+        new Car { ModelGenerationId = gens[0].Id, LicensePlate = "A123BC163", Color = "White" },
+        new Car { ModelGenerationId = gens[1].Id, LicensePlate = "B456AK163", Color = "Black" },
+        new Car { ModelGenerationId = gens[2].Id, LicensePlate = "E789MH163", Color = "Gray" },
+        new Car { ModelGenerationId = gens[3].Id, LicensePlate = "K234OP163", Color = "Red" },
+        new Car { ModelGenerationId = gens[4].Id, LicensePlate = "M567TX163", Color = "Silver" },
+        new Car { ModelGenerationId = gens[5].Id, LicensePlate = "P890CH163", Color = "Blue" },
+        new Car { ModelGenerationId = gens[6].Id, LicensePlate = "C345EA163", Color = "White" },
+        new Car { ModelGenerationId = gens[7].Id, LicensePlate = "T678HX163", Color = "Black" },
+        new Car { ModelGenerationId = gens[8].Id, LicensePlate = "O901KP163", Color = "Gray" },
+        new Car { ModelGenerationId = gens[9].Id, LicensePlate = "H112ME163", Color = "Red" }
     ];
 
     /// <summary>
@@ -120,15 +120,15 @@ public class DataSeeder
     /// </summary>
     private static List<Rental> InitRentals(List<Client> clients, List<Car> cars) =>
     [
-        new Rental { Client = clients[0], Car = cars[0], RentalStartTime = DateTime.Now.AddHours(-10), RentalDurationHours = 4 },
-        new Rental { Client = clients[1], Car = cars[1], RentalStartTime = DateTime.Now.AddDays(-1),  RentalDurationHours = 3 },
-        new Rental { Client = clients[2], Car = cars[2], RentalStartTime = DateTime.Now.AddDays(-2),  RentalDurationHours = 6 },
-        new Rental { Client = clients[3], Car = cars[3], RentalStartTime = DateTime.Now.AddDays(-3),  RentalDurationHours = 2 },
-        new Rental { Client = clients[4], Car = cars[4], RentalStartTime = DateTime.Now.AddDays(-4),  RentalDurationHours = 8 },
-        new Rental { Client = clients[5], Car = cars[5], RentalStartTime = DateTime.Now.AddDays(-5),  RentalDurationHours = 5 },
-        new Rental { Client = clients[6], Car = cars[6], RentalStartTime = DateTime.Now.AddDays(-6),  RentalDurationHours = 3 },
-        new Rental { Client = clients[7], Car = cars[7], RentalStartTime = DateTime.Now.AddDays(-7),  RentalDurationHours = 2 },
-        new Rental { Client = clients[8], Car = cars[8], RentalStartTime = DateTime.Now.AddDays(-8),  RentalDurationHours = 4 },
-        new Rental { Client = clients[9], Car = cars[9], RentalStartTime = DateTime.Now.AddDays(-9),  RentalDurationHours = 7 }
+        new Rental { ClientId = clients[0].Id, CarId = cars[0].Id, RentalStartTime = DateTime.Now.AddHours(-10), RentalDurationHours = 4 },
+        new Rental { ClientId = clients[1].Id, CarId = cars[1].Id, RentalStartTime = DateTime.Now.AddDays(-1),  RentalDurationHours = 3 },
+        new Rental { ClientId = clients[2].Id, CarId = cars[2].Id, RentalStartTime = DateTime.Now.AddDays(-2),  RentalDurationHours = 6 },
+        new Rental { ClientId = clients[3].Id, CarId = cars[3].Id, RentalStartTime = DateTime.Now.AddDays(-3),  RentalDurationHours = 2 },
+        new Rental { ClientId = clients[4].Id, CarId = cars[4].Id, RentalStartTime = DateTime.Now.AddDays(-4),  RentalDurationHours = 8 },
+        new Rental { ClientId = clients[5].Id, CarId = cars[5].Id, RentalStartTime = DateTime.Now.AddDays(-5),  RentalDurationHours = 5 },
+        new Rental { ClientId = clients[6].Id, CarId = cars[6].Id, RentalStartTime = DateTime.Now.AddDays(-6),  RentalDurationHours = 3 },
+        new Rental { ClientId = clients[7].Id, CarId = cars[7].Id, RentalStartTime = DateTime.Now.AddDays(-7),  RentalDurationHours = 2 },
+        new Rental { ClientId = clients[8].Id, CarId = cars[8].Id, RentalStartTime = DateTime.Now.AddDays(-8),  RentalDurationHours = 4 },
+        new Rental { ClientId = clients[9].Id, CarId = cars[9].Id, RentalStartTime = DateTime.Now.AddDays(-9),  RentalDurationHours = 7 }
     ];
 } 
