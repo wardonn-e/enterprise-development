@@ -91,9 +91,10 @@ public class AnalyticsService(
     }
 
     /// <summary>
-    /// Retrieves the number of rentals for every car in the system
+    /// Retrieves the total number of rentals for every car in the system
     /// </summary>
-    public async Task<Dictionary<CarDto, int>> GetRentalCountPerCar()
+    /// <returns>A dictionary where the key is the car's license plate and the value is its total rental count</returns>
+    public async Task<IDictionary<string, int>> GetRentalCountPerCar()
     {
         var rentals = await rentalRepository.GetAll();
         var cars = await carRepository.GetAll();
@@ -105,7 +106,7 @@ public class AnalyticsService(
         var result = cars
             .OrderBy(c => c.LicensePlate)
             .ToDictionary(
-                c => mapper.Map<CarDto>(c),
+                c => c.LicensePlate,
                 c => rentalCounts.GetValueOrDefault(c.Id, 0)
             );
 

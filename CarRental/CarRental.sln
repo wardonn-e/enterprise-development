@@ -15,6 +15,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarRental.Application.Contr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarRental.Domain.Shared", "CarRental.Domain.Shared\CarRental.Domain.Shared.csproj", "{B682DF81-908A-4474-90ED-4245AAD37BAB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarRental.Api.Host", "CarRental.Api.Host\CarRental.Api.Host.csproj", "{775FA0C7-2ED0-E59F-ADBF-F1495414F9B8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarRental.AppHost", "CarRental.AppHost\CarRental.AppHost.csproj", "{040B067C-1E06-4465-A845-74B1155B2189}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarRental.ServiceDefaults", "CarRental.ServiceDefaults\CarRental.ServiceDefaults.csproj", "{5D2BF94D-59D5-96DD-67AA-FD337168498F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +51,18 @@ Global
 		{B682DF81-908A-4474-90ED-4245AAD37BAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B682DF81-908A-4474-90ED-4245AAD37BAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B682DF81-908A-4474-90ED-4245AAD37BAB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{775FA0C7-2ED0-E59F-ADBF-F1495414F9B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{775FA0C7-2ED0-E59F-ADBF-F1495414F9B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{775FA0C7-2ED0-E59F-ADBF-F1495414F9B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{775FA0C7-2ED0-E59F-ADBF-F1495414F9B8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{040B067C-1E06-4465-A845-74B1155B2189}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{040B067C-1E06-4465-A845-74B1155B2189}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{040B067C-1E06-4465-A845-74B1155B2189}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{040B067C-1E06-4465-A845-74B1155B2189}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5D2BF94D-59D5-96DD-67AA-FD337168498F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D2BF94D-59D5-96DD-67AA-FD337168498F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D2BF94D-59D5-96DD-67AA-FD337168498F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D2BF94D-59D5-96DD-67AA-FD337168498F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -30,10 +30,10 @@ public interface IAnalyticsService
     public Task<IList<CarDto>> GetTop5MostRentedCars();
 
     /// <summary>
-    /// Retrieves the number of rentals for every car in the system
+    /// Retrieves the total number of rentals for every car in the system
     /// </summary>
-    /// <returns>A dictionary mapping CarDto to its total rental count</returns>
-    public Task<Dictionary<CarDto, int>> GetRentalCountPerCar();
+    /// <returns>A dictionary where the key is the car's license plate and the value is its total rental count</returns>
+    public Task<IDictionary<string, int>> GetRentalCountPerCar();
 
     /// <summary>
     /// Retrieves the top 5 clients based on their total cumulative rental amount
