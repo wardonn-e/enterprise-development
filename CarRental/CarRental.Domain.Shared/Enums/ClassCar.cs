@@ -1,4 +1,4 @@
-﻿namespace CarRental.Domain.Enums;
+﻿namespace CarRental.Domain.Shared.Enums;
 
 /// <summary>
 /// Specifies the market or size class of a vehicle

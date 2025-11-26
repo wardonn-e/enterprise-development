@@ -1,4 +1,4 @@
-﻿using CarRental.Domain.Enums;
+﻿using CarRental.Domain.Shared.Enums;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CarRental.Domain.Entities;

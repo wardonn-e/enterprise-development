@@ -1,7 +1,4 @@
-﻿using System;
-using System.Linq;
-using Xunit;
-using CarRental.Domain.Data;
+﻿using CarRental.Domain.Data;
 
 namespace CarRental.Tests;
 

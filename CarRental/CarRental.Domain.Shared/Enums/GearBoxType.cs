@@ -1,4 +1,4 @@
-﻿namespace CarRental.Domain.Enums;
+﻿namespace CarRental.Domain.Shared.Enums;
 
 /// <summary>
 /// Specifies the transmission type of a vehicle

@@ -1,5 +1,5 @@
 ﻿using CarRental.Domain.Entities;
-using CarRental.Domain.Enums;
+using CarRental.Domain.Shared.Enums;
 
 namespace CarRental.Domain.Data;
 
