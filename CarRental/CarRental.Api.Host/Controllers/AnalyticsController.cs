@@ -1,4 +1,5 @@
 ﻿using CarRental.Application.Contracts;
+using CarRental.Application.Contracts.Analytics;
 using CarRental.Application.Contracts.Cars;
 using CarRental.Application.Contracts.Clients;
 using Microsoft.AspNetCore.Mvc;
@@ -12,28 +13,33 @@ namespace CarRental.Api.Host.Controllers;
 [ApiController]
 public class AnalyticsController(
     IAnalyticsService analyticsService,
-    ILogger<AnalyticsController> logger
-) : ControllerBase
+    ILogger<AnalyticsController> logger) : ControllerBase
 {
     /// <summary>
     /// Retrieves all distinct clients who rented cars of a specified model, ordered by full name
     /// </summary>
-    /// <param name="modelName">The name of the car model to filter by</param>
+    /// <param name="modelId">The unique identifier of the car model to filter by</param>
     /// <returns>A list of ClientDto</returns>
-    [HttpGet("clients-by-model-name")]
+    [HttpGet("clients-by-model-id")]
     [ProducesResponseType(200)]
+    [ProducesResponseType(404)]
     [ProducesResponseType(500)]
-    public async Task<ActionResult<IList<ClientDto>>> GetClientsByModelName([FromQuery] string modelName)
+    public async Task<ActionResult<IList<ClientDto>>> GetClientsByModelId([FromQuery] Guid modelId)
     {
         try
         {
-            var clients = await analyticsService.GetClientsByModelName(modelName);
-            logger.LogInformation("Retrieved {Count} clients who rented model '{ModelName}'", clients.Count, modelName);
+            var clients = await analyticsService.GetClientsByModelId(modelId);
+            logger.LogInformation("Retrieved {Count} clients who rented model with ID '{ModelId}'", clients.Count, modelId);
             return Ok(clients);
+        }
+        catch (KeyNotFoundException ex)
+        {
+            logger.LogWarning(ex, "Model not found for ID {ModelId}", modelId);
+            return NotFound(ex.Message);
         }
         catch (Exception ex)
         {
-            logger.LogError(ex, "Error retrieving clients by model name.");
+            logger.LogError(ex, "Error retrieving clients by model ID.");
             return StatusCode(500, ex.Message);
         }
     }
@@ -63,11 +69,11 @@ public class AnalyticsController(
     /// <summary>
     /// Retrieves the top 5 most frequently rented cars, ordered by rental count descending
     /// </summary>
-    /// <returns>A list of CarDto</returns>
+    /// <returns>A list of CarRentalCountDto</returns>
     [HttpGet("top-5-most-rented-cars")]
     [ProducesResponseType(200)]
     [ProducesResponseType(500)]
-    public async Task<ActionResult<IList<CarDto>>> GetTop5MostRentedCars()
+    public async Task<ActionResult<IList<CarRentalCountDto>>> GetTop5MostRentedCars()
     {
         try
         {
@@ -85,7 +91,7 @@ public class AnalyticsController(
     /// <summary>
     /// Retrieves the number of rentals for every car in the system
     /// </summary>
-    /// <returns>A dictionary mapping CarDto to its total rental count</returns>
+    /// <returns>A dictionary mapping License plate to its total rental count</returns>
     [HttpGet("rental-count-per-car")]
     [ProducesResponseType(200)]
     [ProducesResponseType(500)]
@@ -107,11 +113,11 @@ public class AnalyticsController(
     /// <summary>
     /// Retrieves the top 5 clients based on their total cumulative rental amount
     /// </summary>
-    /// <returns>A list of ClientDto</returns>
+    /// <returns>A list of ClientTotalAmountDto</returns>
     [HttpGet("top-5-clients-by-total-amount")]
     [ProducesResponseType(200)]
     [ProducesResponseType(500)]
-    public async Task<ActionResult<IList<ClientDto>>> GetTop5ClientsByTotalAmount()
+    public async Task<ActionResult<IList<ClientTotalAmountDto>>> GetTop5ClientsByTotalAmount()
     {
         try
         {

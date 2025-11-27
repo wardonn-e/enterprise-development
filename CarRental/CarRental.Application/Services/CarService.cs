@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using CarRental.Application.Contracts.Cars;
 using CarRental.Application.Contracts.ModelGenerations;
+using CarRental.Application.Contracts.Rentals;
 using CarRental.Domain;
 using CarRental.Domain.Entities;
 
@@ -11,10 +12,12 @@ namespace CarRental.Application.Services;
 /// </summary>
 /// <param name="repository">The repository for Car entities</param>
 /// <param name="mgRepository">The repository for ModelGeneration entities</param>
+/// <param name="rentRepository">The repository for Rental entities</param>
 /// <param name="mapper">The AutoMapper instance for DTO mapping</param>
 public class CarService(
     IRepository<Car, Guid> repository,
     IRepository<ModelGeneration, Guid> mgRepository,
+    IRepository<Rental, Guid> rentRepository,
     IMapper mapper) : ICarService
 {
     /// <summary>
@@ -97,5 +100,20 @@ public class CarService(
         }
 
         return mapper.Map<ModelGenerationDto>(modelGeneration);
+    }
+
+    /// <summary>
+    /// Retrieves all rental history records associated with a specific car
+    /// </summary>
+    /// <param name="carId">The unique identifier of the Car</param>
+    /// <returns>A list of RentalDto</returns>
+    public async Task<IList<RentalDto>> GetRentals(Guid carId)
+    {
+        var _ = await repository.Get(carId)
+            ?? throw new KeyNotFoundException($"Car with ID {carId} not found");
+
+        var rentals = await rentRepository.GetAll();
+
+        return mapper.Map<IList<RentalDto>>(rentals.Where(r => r.CarId == carId));
     }
 }

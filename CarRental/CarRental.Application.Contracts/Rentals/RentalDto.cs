@@ -11,6 +11,16 @@ public record RentalDto
     public required Guid Id { get; init; }
 
     /// <summary> 
+    /// Primary key of client
+    /// </summary>
+    public required Guid ClientId { get; init; }
+
+    /// <summary> 
+    /// Primary key of car
+    /// </summary>
+    public required Guid CarId { get; init; }
+
+    /// <summary> 
     /// Start date and time when the car was issued to the client
     /// </summary>
     public required DateTime RentalStartTime { get; init; }

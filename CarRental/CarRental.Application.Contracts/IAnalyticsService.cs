@@ -1,4 +1,5 @@
-﻿using CarRental.Application.Contracts.Cars;
+﻿using CarRental.Application.Contracts.Analytics;
+using CarRental.Application.Contracts.Cars;
 using CarRental.Application.Contracts.Clients;
 
 namespace CarRental.Application.Contracts;
@@ -12,9 +13,9 @@ public interface IAnalyticsService
     /// Retrieves all distinct clients who rented cars of a specified model
     /// The results are ordered alphabetically by full name
     /// </summary>
-    /// <param name="modelName">The name of the car model to filter by</param>
+    /// <param name="modelId">The unique identifier of the car model to filter by</param>
     /// <returns>A list of ClientDto</returns>
-    public Task<IList<ClientDto>> GetClientsByModelName(string modelName);
+    public Task<IList<ClientDto>> GetClientsByModelId(Guid modelId);
 
     /// <summary>
     /// Retrieves all cars that are currently in an active rental period
@@ -24,10 +25,10 @@ public interface IAnalyticsService
 
     /// <summary>
     /// Retrieves the top 5 most frequently rented cars
-    /// The results are ordered by rental count in descending order
+    /// The results include the rental count and are ordered by rental count in descending order
     /// </summary>
-    /// <returns>A list of CarDto</returns>
-    public Task<IList<CarDto>> GetTop5MostRentedCars();
+    /// <returns>A list of CarRentalCountDto</returns>
+    public Task<IList<CarRentalCountDto>> GetTop5MostRentedCars();
 
     /// <summary>
     /// Retrieves the total number of rentals for every car in the system
@@ -37,8 +38,8 @@ public interface IAnalyticsService
 
     /// <summary>
     /// Retrieves the top 5 clients based on their total cumulative rental amount
-    /// Results are ordered by total amount descending and full name ascending
+    /// Results include the total amount and are ordered by total amount descending and full name ascending
     /// </summary>
-    /// <returns>A list of ClientDto</returns>
-    public Task<IList<ClientDto>> GetTop5ClientsByTotalAmount();
+    /// <returns>A list of ClientTotalAmountDto</returns>
+    public Task<IList<ClientTotalAmountDto>> GetTop5ClientsByTotalAmount();
 }

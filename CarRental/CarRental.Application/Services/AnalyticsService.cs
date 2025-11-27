@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using CarRental.Application.Contracts;
+using CarRental.Application.Contracts.Analytics;
 using CarRental.Application.Contracts.Cars;
 using CarRental.Application.Contracts.Clients;
 using CarRental.Domain;
@@ -27,18 +28,22 @@ public class AnalyticsService(
     /// <summary>
     /// Retrieves all distinct clients who rented cars of a specified model
     /// </summary>
-    public async Task<IList<ClientDto>> GetClientsByModelName(string modelName)
+    /// <param name="modelId">The unique identifier of the car model to filter by</param>
+    public async Task<IList<ClientDto>> GetClientsByModelId(Guid modelId)
     {
-        var models = await modelRepository.GetAll();
         var modelGenerations = await modelGenRepository.GetAll();
         var rentals = await rentalRepository.GetAll();
         var clients = await clientRepository.GetAll();
         var cars = await carRepository.GetAll();
 
-        var modelId = models.FirstOrDefault(m => m.NameModel.Equals(modelName, StringComparison.OrdinalIgnoreCase))?.Id;
-        if (modelId == null) return [];
+        var model = await modelRepository.Get(modelId) ?? throw new KeyNotFoundException($"Model with ID {modelId} not found");
 
-        var modelGenIds = modelGenerations.Where(mg => mg.ModelId == modelId).Select(mg => mg.Id).ToHashSet();
+        var modelGenIds = modelGenerations
+            .Where(mg => mg.ModelId == modelId)
+            .Select(mg => mg.Id)
+            .ToHashSet();
+
+        if (modelGenIds.Count == 0) return [];
 
         var clientEntities = rentals
             .Join(cars, r => r.CarId, c => c.Id, (r, c) => new { r, c })
@@ -74,20 +79,36 @@ public class AnalyticsService(
     /// <summary>
     /// Retrieves the top 5 most frequently rented cars
     /// </summary>
-    public async Task<IList<CarDto>> GetTop5MostRentedCars()
+    public async Task<IList<CarRentalCountDto>> GetTop5MostRentedCars()
     {
         var rentals = await rentalRepository.GetAll();
         var cars = await carRepository.GetAll();
 
-        var top5Cars = rentals
+        var top5CarData = rentals
             .GroupBy(r => r.CarId)
             .Select(g => new { CarId = g.Key, Count = g.Count() })
             .OrderByDescending(x => x.Count)
             .Take(5)
-            .Join(cars, anon => anon.CarId, c => c.Id, (anon, c) => c)
+            .Join(cars, anon => anon.CarId, c => c.Id, (anon, c) => new
+            {
+                Car = c,
+                anon.Count
+            })
             .ToList();
 
-        return mapper.Map<IList<CarDto>>(top5Cars);
+        var result = top5CarData.Select(x =>
+        {
+            var carDtoBase = mapper.Map<CarDto>(x.Car);
+
+            return new CarRentalCountDto(x.Count)
+            {
+                Id = carDtoBase.Id,
+                LicensePlate = carDtoBase.LicensePlate,
+                Color = carDtoBase.Color,
+            };
+        }).ToList();
+
+        return result;
     }
 
     /// <summary>
@@ -116,7 +137,7 @@ public class AnalyticsService(
     /// <summary>
     /// Retrieves the top 5 clients based on their total cumulative rental amount
     /// </summary>
-    public async Task<IList<ClientDto>> GetTop5ClientsByTotalAmount()
+    public async Task<IList<ClientTotalAmountDto>> GetTop5ClientsByTotalAmount()
     {
         var modelGenerations = await modelGenRepository.GetAll();
         var rentals = await rentalRepository.GetAll();
@@ -126,7 +147,7 @@ public class AnalyticsService(
         var carDict = cars.ToDictionary(c => c.Id, c => c);
         var mgDict = modelGenerations.ToDictionary(mg => mg.Id, mg => mg);
 
-        var top5Clients = rentals
+        var top5ClientData = rentals
             .Select(r =>
             {
                 var car = carDict.GetValueOrDefault(r.CarId);
@@ -151,9 +172,21 @@ public class AnalyticsService(
             })
             .OrderByDescending(x => x.TotalSum)
             .ThenBy(x => x.Client.FullName)
-            .Select(x => x.Client)
             .ToList();
 
-        return mapper.Map<IList<ClientDto>>(top5Clients);
+        var result = top5ClientData.Select(x =>
+        {
+            var clientDtoBase = mapper.Map<ClientDto>(x.Client);
+
+            return new ClientTotalAmountDto(x.TotalSum)
+            {
+                Id = clientDtoBase.Id,
+                FullName = clientDtoBase.FullName,
+                DriverLicenseNumber = clientDtoBase.DriverLicenseNumber,
+            };
+        })
+        .ToList();
+
+        return result;
     }
 }

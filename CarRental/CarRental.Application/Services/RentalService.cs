@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
-using CarRental.Application.Contracts.Cars;
-using CarRental.Application.Contracts.Clients;
+using CarRental.Application.Contracts;
 using CarRental.Application.Contracts.Rentals;
 using CarRental.Domain;
 using CarRental.Domain.Entities;
@@ -11,14 +10,10 @@ namespace CarRental.Application.Services;
 /// Service implementation for managing Rental business logic
 /// </summary>
 /// <param name="repository">The repository for Rental entities</param>
-/// <param name="carRepository">The repository for Car entities</param>
-/// <param name="clientRepository">The repository for Client entities</param>
 /// <param name="mapper">The AutoMapper instance for DTO mapping</param>
 public class RentalService(
     IRepository<Rental, Guid> repository,
-    IRepository<Car, Guid> carRepository,
-    IRepository<Client, Guid> clientRepository,
-    IMapper mapper) : IRentalService
+    IMapper mapper) : IApplicationService<RentalDto, RentalCreateUpdateDto, Guid>
 {
     /// <summary>
     /// Creates a new Rental entity
@@ -81,49 +76,5 @@ public class RentalService(
 
         var updatedEntity = await repository.Update(existingRental);
         return mapper.Map<RentalDto>(updatedEntity);
-    }
-
-    /// <summary>
-    /// Retrieves the Car details associated with a specific rental
-    /// </summary>
-    /// <param name="rentalId">The unique identifier of the Rental</param>
-    /// <returns>The CarDto of the rented car</returns>
-    public async Task<CarDto> GetCar(Guid rentalId)
-    {
-        var rental = await repository.Get(rentalId)
-            ?? throw new KeyNotFoundException($"Rental with ID {rentalId} not found");
-
-        var car = rental.Car;
-
-        car ??= await carRepository.Get(rental.CarId);
-
-        if (car == null)
-        {
-            throw new KeyNotFoundException($"Car for Rental {rentalId} not found");
-        }
-
-        return mapper.Map<CarDto>(car);
-    }
-
-    /// <summary>
-    /// Retrieves the Client details associated with a specific rental
-    /// </summary>
-    /// <param name="rentalId">The unique identifier of the Rental</param>
-    /// <returns>The ClientDto of the client</returns>
-    public async Task<ClientDto> GetClient(Guid rentalId)
-    {
-        var rental = await repository.Get(rentalId)
-            ?? throw new KeyNotFoundException($"Rental with ID {rentalId} not found");
-
-        var client = rental.Client;
-
-        client ??= await clientRepository.Get(rental.ClientId);
-
-        if (client == null)
-        {
-            throw new KeyNotFoundException($"Client for Rental {rentalId} not found");
-        }
-
-        return mapper.Map<ClientDto>(client);
     }
 }

@@ -12,8 +12,7 @@ namespace CarRental.Api.Host.Controllers;
 [ApiController]
 public class ModelGenerationController(
     IModelGenerationService modelGenerationService,
-    ILogger<ModelGenerationController> logger
-) : CrudControllerBase<ModelGenerationDto, ModelGenerationCreateUpdateDto, Guid>(modelGenerationService, logger)
+    ILogger<ModelGenerationController> logger) : CrudControllerBase<ModelGenerationDto, ModelGenerationCreateUpdateDto, Guid>(modelGenerationService, logger)
 {
     /// <summary>
     /// Retrieves the parent Model details associated with a specific model generation

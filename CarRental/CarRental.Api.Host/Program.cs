@@ -34,10 +34,10 @@ builder.Services.AddTransient<IRepository<Rental, Guid>, RentalRepository>();
 
 builder.Services.AddScoped<IAnalyticsService, AnalyticsService>();
 builder.Services.AddScoped<ICarService, CarService>();
-builder.Services.AddScoped<IApplicationService<ClientDto, ClientCreateUpdateDto, Guid>, ClientService>();
-builder.Services.AddScoped<IApplicationService<ModelDto, ModelCreateUpdateDto, Guid>, ModelService>();
+builder.Services.AddScoped<IClientService, ClientService>();
 builder.Services.AddScoped<IModelGenerationService, ModelGenerationService>();
-builder.Services.AddScoped<IRentalService, RentalService>();
+builder.Services.AddScoped<IApplicationService<ModelDto, ModelCreateUpdateDto, Guid>, ModelService>();
+builder.Services.AddScoped<IApplicationService<RentalDto, RentalCreateUpdateDto, Guid>, RentalService>();
 
 builder.Services.AddControllers().AddJsonOptions(o =>
 {

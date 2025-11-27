@@ -13,8 +13,7 @@ namespace CarRental.Api.Host.Controllers;
 [ApiController]
 public class CrudControllerBase<TDto, TCreateUpdateDto, TKey>(
     IApplicationService<TDto, TCreateUpdateDto, TKey> appService,
-    ILogger<CrudControllerBase<TDto, TCreateUpdateDto, TKey>> logger
-) : ControllerBase
+    ILogger<CrudControllerBase<TDto, TCreateUpdateDto, TKey>> logger) : ControllerBase
     where TDto : class
     where TCreateUpdateDto : class
     where TKey : struct

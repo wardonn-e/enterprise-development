@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using CarRental.Application.Contracts;
 using CarRental.Application.Contracts.Clients;
+using CarRental.Application.Contracts.Rentals;
 using CarRental.Domain;
 using CarRental.Domain.Entities;
 
@@ -11,7 +11,7 @@ namespace CarRental.Application.Services;
 /// </summary>
 /// <param name="repository">The repository for Client entities</param>
 /// <param name="mapper">The AutoMapper instance for DTO mapping</param>
-public class ClientService(IRepository<Client, Guid> repository, IMapper mapper) : IApplicationService<ClientDto, ClientCreateUpdateDto, Guid>
+public class ClientService(IRepository<Client, Guid> repository, IRepository<Rental, Guid> rentRepository, IMapper mapper) : IClientService
 {
     /// <summary>
     /// Creates a new Client entity
@@ -71,5 +71,20 @@ public class ClientService(IRepository<Client, Guid> repository, IMapper mapper)
 
         var updatedEntity = await repository.Update(existingClient);
         return mapper.Map<ClientDto>(updatedEntity);
+    }
+
+    /// <summary>
+    /// Retrieves all rental history records associated with a specific client
+    /// </summary>
+    /// <param name="clientId">The unique identifier of the Client</param>
+    /// <returns>A list of RentalDto</returns>
+    public async Task<IList<RentalDto>> GetRentals(Guid clientId)
+    {
+        var _ = await repository.Get(clientId)
+            ?? throw new KeyNotFoundException($"Client with ID {clientId} not found");
+
+        var rentals = await rentRepository.GetAll();
+
+        return mapper.Map<IList<RentalDto>>(rentals.Where(r => r.ClientId == clientId));
     }
 }
