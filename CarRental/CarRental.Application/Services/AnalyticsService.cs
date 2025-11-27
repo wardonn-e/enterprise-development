@@ -99,13 +99,7 @@ public class AnalyticsService(
         var result = top5CarData.Select(x =>
         {
             var carDtoBase = mapper.Map<CarDto>(x.Car);
-
-            return new CarRentalCountDto(x.Count)
-            {
-                Id = carDtoBase.Id,
-                LicensePlate = carDtoBase.LicensePlate,
-                Color = carDtoBase.Color,
-            };
+            return new CarRentalCountDto(carDtoBase, x.Count);
         }).ToList();
 
         return result;
@@ -177,13 +171,7 @@ public class AnalyticsService(
         var result = top5ClientData.Select(x =>
         {
             var clientDtoBase = mapper.Map<ClientDto>(x.Client);
-
-            return new ClientTotalAmountDto(x.TotalSum)
-            {
-                Id = clientDtoBase.Id,
-                FullName = clientDtoBase.FullName,
-                DriverLicenseNumber = clientDtoBase.DriverLicenseNumber,
-            };
+            return new ClientTotalAmountDto(clientDtoBase, x.TotalSum);
         })
         .ToList();
 
